@@ -64,21 +64,25 @@ Generate a copy of the audit excluding the payloads (modsec audit part
 
 .. code:: text
 
-  $ modseclogc --match-path /path/to/resource/** --unmatched keep \
-      --hide-parts C modsec.log | gzip -9 > clean-modsec.log.gz
+  $ zcat modsec_audit.log.gz \
+    | modseclogc \
+      --match-path /path/to/resource/** --hide-parts C \
+      --unmatched keep \
+    | gzip -9 > clean-modsec_audit.log.gz
 
 
 Details
 =======
 
-* By default, all input records are matched and unmatched records are
-  dropped. Matched records are modified via the "--match-*" and
-  "--inverse" arguments. What happens to unmatched records is
-  controlled by the "--unmatched" argument.
+* By default, all input records are matched. This is modified via the
+  ``--match-*`` and ``--inverse`` arguments.
+
+* By default, all unmatched records are dropped. This is modified via
+  the ``--unmatched`` argument.
 
 * Output operations (show, hide, etc) only apply to matched records
-  (note that the "--inverse" argument inverts the matching algorithm,
-  not this rule).
+  (note that the ``--inverse`` argument inverts the matching
+  algorithm, not this rule).
 
-* The audit log must be in "Native" format (see ``SecAuditLogFormat``
-  modsec option).
+* The audit log must be in ``Native`` format (see the
+  ``SecAuditLogFormat`` modsec option).
